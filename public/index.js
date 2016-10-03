@@ -60,7 +60,7 @@ toDo.controller('TaskController', [
       if (desc.length > 0) {
         var item = {id: '', desc: desc, done: 'not-done'};
         var lastInd = $scope.tasks.length - 1;
-        var id = +$scope.tasks[lastInd].id + 1;// generate id:  nextId = lastId+1
+        var id = lastInd == -1 ? 1 : +$scope.tasks[lastInd].id + 1;// generate id:  nextId = lastId+1
         item.id = id.toString();
 
         addTask(item).then(function (response) {
@@ -73,17 +73,20 @@ toDo.controller('TaskController', [
     };
 
     //deleteTask
-    $scope.removeItem = function (id) {
-      deleteTask(id).then(function (response) {
+    $scope.removeItem = function (item) {
+      deleteTask(item.id).then(function (response) {
         if (response.data.status == "deleted") {
-          $scope.tasks = $scope.tasks.filter(task => task.id != id);
+          var index = $scope.tasks.indexOf(item);
+          $scope.tasks.splice(index,1);
         }
       });
     };
+
     //updateTask
     $scope.updateItem = function (task) {
       updateTask(task.id, task).then(function (response) {
         if (response.data.status == "updated") {
+          console.log($scope.tasks);
           /*$scope.tasks = $scope.tasks.filter(task => task.id != id);*/
         }
       });
