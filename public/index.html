@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="toDo">
+<head>
+    <meta charset="UTF-8">
+    <title>To Do</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link href="styles.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<div ng-controller="TaskController" class="container">
+    <div class="row">
+        <div class="wrapper col-lg-6 col-lg-offset-3  col-md-12 col-sm-12">
+            <h1>To Do List</h1>
+
+            <div ng-repeat="task in tasks">
+                <div class="input-group">
+                <span class="input-group-addon">
+                    <input type="checkbox"
+                           ng-model="task.done"
+                           ng-true-value="done"
+                           ng-false-value="not-done"
+                           ng-change="updateItem(task)">
+                </span>
+
+                    <input type="text" ng-blur="updateItem(task)" ng-model="task.desc"
+                           class="form-control {{task.done}}" name='task-{{task.id}}}' value="{{task.desc}}">
+                <span class="input-group-btn">
+                    <button class="btn btn-default remove" ng-click="removeItem(task.id)" type="button">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </button>
+                </span>
+                </div>
+            </div>
+
+
+            <div ng-show="newTask" class="new-task">
+                <div class="form-group">
+                    <input type="text" ng-model="desc" class="form-control"
+                           placeholder="For example: read article, pay for electricity">
+                </div>
+                <button class="btn btn-warning" ng-click="addItem(desc)">Add task</button>
+                <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+            </div>
+
+            <div class="adding">
+                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+                <a href="" class="text" ng-click="addNewTask()">Add task</a>
+            </div>
+            <div class="total">
+                Total: <span>{{total()}}</span>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+<script src="index.js"></script>
+</html>
